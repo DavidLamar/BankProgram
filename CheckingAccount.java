@@ -17,4 +17,4 @@ public class CheckingAccount extends Account {
 
 	// add getter, setter, equals(), and toString() methods
 
-	}
+}

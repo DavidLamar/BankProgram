@@ -28,4 +28,4 @@ public abstract class Account implements Serializable {
 
 	// add getter, setter, equals(), and toString() methods
 
-	}
+}
