@@ -17,6 +17,7 @@ public class CheckingAccount extends Account {
 
 	// add getter, setter, equals(), and toString() methods
 
+	//Monthly fee
 	public double getMonthlyFee() {
 		return monthlyFee;
 	}

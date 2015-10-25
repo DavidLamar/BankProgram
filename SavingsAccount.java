@@ -19,6 +19,7 @@ public class SavingsAccount extends Account {
 
 	// add getter, setter, equals(), and toString() methods
 
+	//Min balence
 	public double getMinBalance() {
 		return minBalance;
 	}
@@ -27,7 +28,7 @@ public class SavingsAccount extends Account {
 		this.minBalance = minBalance;
 	}
 
-
+	//interest rate
 	public double getInterestRate() {
 		return interestRate;
 	}

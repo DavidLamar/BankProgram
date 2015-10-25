@@ -28,6 +28,7 @@ public abstract class Account implements Serializable {
 
 	// add getter, setter, equals(), and toString() methods
 
+	//number
 	public int getNumber() {
 		return number;
 	}
@@ -36,7 +37,7 @@ public abstract class Account implements Serializable {
 		this.number = number;
 	}
 
-
+	//Owner
 	public String getOwner() {
 		return owner;
 	}
@@ -45,7 +46,7 @@ public abstract class Account implements Serializable {
 		this.owner = owner;
 	}
 
-
+	//Date
 	public GregorianCalendar getDateOpened() {
 		return dateOpened;
 	}
@@ -54,7 +55,7 @@ public abstract class Account implements Serializable {
 		this.dateOpened = dateOpened;
 	}
 
-
+	//Balance
 	public double getBalance() {
 		return balance;
 	}
