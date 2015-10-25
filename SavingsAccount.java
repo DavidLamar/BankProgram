@@ -19,4 +19,20 @@ public class SavingsAccount extends Account {
 
 	// add getter, setter, equals(), and toString() methods
 
+	public double getMinBalance() {
+		return minBalance;
+	}
+
+	public void setMinBalance(double minBalance) {
+		this.minBalance = minBalance;
+	}
+
+
+	public double getInterestRate() {
+		return interestRate;
+	}
+
+	public void setInterestRate(double interestRate) {
+		this.interestRate = interestRate;
+	}
 }
