@@ -15,8 +15,10 @@ public class BankGUI extends JFrame {
 	//Instance Variables
 	private static JPanel programPannel;
 	private static JMenuBar fileBar;
-	private JMenu file, edit;
-	private JMenuItem loadBinary, loadText, loadXML, saveBinary, saveText, saveXML, exit, createAccount, deleteAccount, updateAccount;
+	private JMenu file, edit, sort;
+	private JMenuItem loadBinary, loadText, loadXML, saveBinary, 
+	saveText, saveXML, exit, createAccount, deleteAccount, 
+	updateAccount, sortNumber, sortOwner, sortDate;
 	
 	
 	
@@ -32,8 +34,10 @@ public class BankGUI extends JFrame {
 		//set up the file bar
 		file = new JMenu("File");
 		edit = new JMenu("Edit");
+		sort = new JMenu("Sort");
 		fileBar.add(file);
 		fileBar.add(edit);
+		fileBar.add(sort);
 		
 		FileListener listener = new FileListener();
 		
@@ -89,6 +93,18 @@ public class BankGUI extends JFrame {
 		edit.add(updateAccount);
 		
 		
+		//Sort:
+		sortNumber = new JMenuItem("Sort by Account Number");
+		sortNumber.addActionListener(listener);
+		sort.add(sortNumber);
+		
+		sortOwner = new JMenuItem("Sort by Account Owner");
+		sortOwner.addActionListener(listener);
+		sort.add(sortOwner);
+		
+		sortDate = new JMenuItem("Sort by Date Opened");
+		sortDate.addActionListener(listener);
+		sort.add(sortDate);
 		
 		
 	}
@@ -123,50 +139,68 @@ public class BankGUI extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
+			
+			//All of the events; we can delete the print statements
+			//whenever; they're just there to make sure buttons work.
 
 			//load binary file
 			if (arg0.getSource() == loadBinary) {
-
+				System.out.println("Clicked: " + arg0.getSource());
 			}
 
 			//load text file
 			if (arg0.getSource() == loadText) {
-
+				System.out.println("Clicked: " + arg0.getSource());
 			}
 
 			//load XML file
 			if (arg0.getSource() == loadXML) {
-
+				System.out.println("Clicked: " + arg0.getSource());
 			}
 
 			//save binary file
 			if (arg0.getSource() == saveBinary) {
-
+				System.out.println("Clicked: " + arg0.getSource());
 			}
 
 			//save text file
 			if (arg0.getSource() == saveText) {
-
+				System.out.println("Clicked: " + arg0.getSource());
 			}
 
 			//save XML file
 			if (arg0.getSource() == saveXML) {
-
+				System.out.println("Clicked: " + arg0.getSource());
 			}
 
 			//create a new bank account
 			if (arg0.getSource() == createAccount) {
-
+				System.out.println("Clicked: " + arg0.getSource());
 			}
 			
 			//delete an existing bank account
 			if (arg0.getSource() == deleteAccount) {
-
+				System.out.println("Clicked: " + arg0.getSource());
 			}
 			
 			//update an existing account
 			if (arg0.getSource() == updateAccount) {
-
+				System.out.println("Clicked: " + arg0.getSource());
+			}
+			
+			//sort table by account number
+			if (arg0.getSource() == sortNumber) {
+				System.out.println("Clicked: " + arg0.getSource());
+			}
+			
+			//sort table by account owner
+			if (arg0.getSource() == sortOwner) {
+				System.out.println("Clicked: " + arg0.getSource());
+			}
+			
+			//sort table by date opened
+			if (arg0.getSource() == sortDate) {
+				System.out.println("Clicked: " + arg0.getSource());
 			}
 			
 			//Exit the Program

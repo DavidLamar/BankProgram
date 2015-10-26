@@ -19,16 +19,71 @@ public class BankModel extends AbstractListModel {
 	public int getSize() {
 		return acts.size();
 	}
-
-	// add methods to find, add, delete, and update accounts
-
-	// add methods to sort accounts on required fields
-
-	// add methods to load/save accounts from/to a binary file
-
-	// add methods to load/save accounts from/to a text file
-
-	// add methods to load/save accounts from/to an XML file
-
-	// add other methods as needed
+	
+/*************************** Account *********************************/
+	
+	public void addAccount(){
+		
+	}
+	
+	public void findAccount(){
+		
+	}
+	
+	public void deleteAccount(){
+		
+	}
+	
+	public void updateAccount(){
+		
+	}
+	
+	
+/****************************** Load *********************************/
+	
+	public void loadBinary(){
+		
+	}
+	
+	public void loadText(){
+		
+	}
+	
+	public void loadXML(){
+		
+	}
+	
+	
+/****************************** Save *********************************/
+	
+	public void saveBinary(){
+		
+	}
+	
+	public void saveText(){
+		
+	}
+	
+	public void saveXML(){
+		
+	}
+	
+	
+/****************************** Sort *********************************/
+	
+	public void sortAccountNumber(){
+		
+	}
+	
+	public void sortOwner(){
+		
+	}
+	
+	public void sortDate(){
+		
+	}
+	
+	
+	
+	
 }
