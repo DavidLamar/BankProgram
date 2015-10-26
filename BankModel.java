@@ -1,5 +1,11 @@
 package BankProgram;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javax.swing.AbstractListModel;
@@ -41,8 +47,19 @@ public class BankModel extends AbstractListModel {
 	
 /****************************** Load *********************************/
 	
-	public void loadBinary(){
+	@SuppressWarnings("unchecked")
+	public void loadBinary(String fileName){
+		FileInputStream in;
+		ObjectInputStream objIn;
 		
+		try{
+			in = new FileInputStream(fileName);
+			objIn = new ObjectInputStream(in);
+			acts = (ArrayList<Account>) objIn.readObject();
+			//TODO - Add the fire update thing here so it updates
+		} catch(Exception e){
+			System.out.println("Could not load file!");
+		}
 	}
 	
 	public void loadText(){
@@ -56,7 +73,25 @@ public class BankModel extends AbstractListModel {
 	
 /****************************** Save *********************************/
 	
-	public void saveBinary(){
+	public void saveBinary(String fileName){
+		FileOutputStream fos;
+		ObjectOutputStream oos;
+		
+		try {
+			
+			fos = new FileOutputStream(fileName);
+			oos = new ObjectOutputStream(fos);
+			oos.writeObject(acts);
+			
+			//These don't need to go into a finally block since they
+			//will never be opened if an error occurs.
+			fos.close();
+			oos.close();
+			
+		} catch (Exception e) {
+			System.out.println("Could not save binary file!");
+			e.printStackTrace();
+		} 
 		
 	}
 	

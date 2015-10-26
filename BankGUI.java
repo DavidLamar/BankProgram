@@ -15,6 +15,7 @@ public class BankGUI extends JFrame {
 	//Instance Variables
 	private static JPanel programPannel;
 	private static JMenuBar fileBar;
+	BankModel bModel;
 	private JMenu file, edit, sort;
 	private JMenuItem loadBinary, loadText, loadXML, saveBinary, 
 	saveText, saveXML, exit, createAccount, deleteAccount, 
@@ -28,7 +29,7 @@ public class BankGUI extends JFrame {
 		fileBar = new JMenuBar();
 		
 		//I know we'll need this later, but it's currently unused.
-		BankModel bModel = new BankModel();
+		bModel = new BankModel();
 		
 		
 		//set up the file bar
@@ -127,14 +128,6 @@ public class BankGUI extends JFrame {
 		bank.setVisible(true);
 	}
 	
-   // declare GUI components (menu items, buttons, etc.) needed
-   
-   // constructor method that prepares the GUI
-
-   // event handlers and other methods needed to build the GUI
-	
-	
-	
 	private class FileListener implements ActionListener {
 
 		@Override
@@ -145,7 +138,9 @@ public class BankGUI extends JFrame {
 
 			//load binary file
 			if (arg0.getSource() == loadBinary) {
-				System.out.println("Clicked: " + arg0.getSource());
+				//Need to specify a file when we have the actual table
+				//to test my method for this
+				//bModel.loadBinary();
 			}
 
 			//load text file
@@ -160,7 +155,9 @@ public class BankGUI extends JFrame {
 
 			//save binary file
 			if (arg0.getSource() == saveBinary) {
-				System.out.println("Clicked: " + arg0.getSource());
+				//Need to specify a file when we have the actual table
+				//to test my method for this
+				//bModel.saveBinary();
 			}
 
 			//save text file
