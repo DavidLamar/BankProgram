@@ -1,5 +1,6 @@
 package BankProgram;
 
+import java.awt.Dimension;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +15,7 @@ import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 import javax.swing.AbstractListModel;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -21,6 +23,7 @@ public class BankModel extends AbstractListModel {
 
 	private ArrayList<Account> acts;
 	private JFrame GUI;
+	private JDialog jd;
 
 	// constructor method that initializes the arraylist
 
@@ -28,11 +31,6 @@ public class BankModel extends AbstractListModel {
 
 		acts = new ArrayList<Account>();
 		GUI = bGUI;
-
-		//test accounts to test scroll panel
-		for(int i = 0; i < 25; i++){
-			acts.add(new CheckingAccount(100 + i, "Marc " + i, new GregorianCalendar(), 12345, 1));
-		}
 	}
 
 	// override these two methods from AbstractListModel class
@@ -52,7 +50,13 @@ public class BankModel extends AbstractListModel {
 	
 /*************************** Account *********************************/
 	
-	public void addAccount(Account act){
+	public void addAccount(){
+		
+		jd = new DialogBox(GUI);
+		jd.setVisible(true);
+		
+		Account act = ((DialogBox) jd).getAccount();
+		
 		acts.add(act);
 		fireContentsChanged(this, 0 , getSize() - 1);
 	}

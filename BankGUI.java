@@ -12,6 +12,7 @@ public class BankGUI extends JFrame {
 	//Instance Variables
 	private static JPanel programPannel;
 	private static JMenuBar fileBar;
+	
 
 	//list
 	BankModel bModel;
@@ -32,7 +33,6 @@ public class BankGUI extends JFrame {
 		programPannel = new JPanel();
 		fileBar = new JMenuBar();
 		
-		//I know we'll need this later, but it's currently unused.
 		bModel = new BankModel(this);
 
 		//set up the file bar
@@ -123,6 +123,7 @@ public class BankGUI extends JFrame {
 		listScroller.setPreferredSize(new Dimension(630, 410));
 
 		programPannel.add(listScroller);
+		
 	}
 	
 	public static void main(String[] args){
@@ -192,14 +193,8 @@ public class BankGUI extends JFrame {
 
 				//temp add for testing
 				//bModel.addAccount(new CheckingAccount(123, "not Marc", new GregorianCalendar(), 12345, 1));
-				
-				Account act = null;
-				JPanel jp = new DialogBox(act);
-				
-				Object[] options = {"Create Account", "Cancel"};
-				JOptionPane.showOptionDialog(null, jp, "Add an Account", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
-				
-				//bModel.addAccount(act);
+			
+				bModel.addAccount();
 			}
 			
 			//delete an existing bank account
