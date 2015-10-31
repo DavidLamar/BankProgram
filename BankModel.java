@@ -1,25 +1,33 @@
 package BankProgram;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Scanner;
 
 import javax.swing.AbstractListModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class BankModel extends AbstractListModel {
 
 	private ArrayList<Account> acts;
+	private JFrame GUI;
 
 	// constructor method that initializes the arraylist
 
-	public BankModel() {
+	public BankModel(JFrame bGUI) {
 
 		acts = new ArrayList<Account>();
+		GUI = bGUI;
 
 		//test accounts to test scroll panel
 		for(int i = 0; i < 25; i++){
@@ -52,6 +60,9 @@ public class BankModel extends AbstractListModel {
 	}
 	
 	public void deleteAccount(int i){
+		JOptionPane.showMessageDialog(GUI, "Deleted Account: " + 
+				acts.get(i).getNumber());
+
 		acts.remove(i);
 		fireContentsChanged(this, 0 , getSize() - 1);
 	}
@@ -79,8 +90,48 @@ public class BankModel extends AbstractListModel {
 		}
 	}
 	
-	public void loadText(){
-		
+	public void loadText(String fileName){
+		try {
+			Scanner read = new Scanner(new File(fileName));
+			String[] info;
+			Account temp;
+			for(int i=0; i<acts.size();){
+				acts.remove(i);
+			}
+			
+			while(read.hasNextLine()){
+				info = read.nextLine().split("\\|");
+
+				//****GOTTA FIX GREGORIAN CALENDAR STUFF
+				if(info[0].equals("BankProgram.CheckingAccount")){
+					temp = new CheckingAccount(
+							Integer.parseInt(info[1]), 
+							info[2], 
+							new GregorianCalendar(), 
+							Double.parseDouble(info[4]),
+							Double.parseDouble(info[5]));
+					
+					acts.add(temp);
+					
+				}else{
+					temp = new SavingsAccount(
+							Integer.parseInt(info[1]),
+							info[2],
+							new GregorianCalendar(),
+							Double.parseDouble(info[4]),
+							Double.parseDouble(info[5]),
+							Double.parseDouble(info[6]));
+					
+					acts.add(temp);
+				}
+			}
+			
+			fireContentsChanged(this, 0, acts.size() - 1);
+			read.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void loadXML(){
@@ -112,12 +163,84 @@ public class BankModel extends AbstractListModel {
 		
 	}
 	
-	public void saveText(){
+	public void saveText(String fileName){
 		
+		String write = "";
+		
+		for(int i = 0; i < acts.size(); i++){
+			
+			//checks if it's savings or checkings
+			if(acts.get(i).getClass().getName().equals("BankProgram.CheckingAccount")){
+				write += acts.get(i).getClass().getName() + "|";
+				write += acts.get(i).getNumber() + "|";
+				write += acts.get(i).getOwner() + "|";
+				write += "<Fix Date in saveText>" + "|";
+				write += acts.get(i).getBalance() + "|";
+				write += ((CheckingAccount)acts.get(i)).getMonthlyFee() + "\n";
+			}else{
+				write += acts.get(i).getClass().getName() + "|";
+				write += acts.get(i).getNumber() + "|";
+				write += acts.get(i).getOwner() + "|";
+				write += "<Fix Date in saveText>" + "|";
+				write += acts.get(i).getBalance() + "|";
+				write += ((SavingsAccount)acts.get(i)).getMinBalance() + "|";
+				write += ((SavingsAccount)acts.get(i)).getInterestRate() + "\n";
+			}
+			
+		}
+		
+		
+		try {
+			BufferedWriter bf = new BufferedWriter(new FileWriter(fileName));
+			bf.write(write);
+			
+			bf.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public void saveXML(){
+	public void saveXML(String fileName){
+
+		String write = "";
 		
+		for(int i = 0; i < acts.size(); i++){
+			
+			//checks if it's savings or checking
+			if(acts.get(i).getClass().getName().equals("BankProgram.CheckingAccount")){
+				write += "<account>\n";
+				write += "<type>" + acts.get(i).getClass().getName() + "</type>\n";
+				write += "<number>" + acts.get(i).getNumber() + "</number>\n";
+				write += "<owner>" + acts.get(i).getOwner() + "</owner>\n";
+				write += "<date>" + "<Fix Date in saveText>" + "</date>\n";
+				write += "<balance>" + acts.get(i).getBalance() + "</balance>\n";
+				write += "<fee>" + ((CheckingAccount)acts.get(i)).getMonthlyFee() + "</fee>\n";
+				write += "</account>\n";
+			}else{
+				write += "<account>\n";
+				write += "<type>" +acts.get(i).getClass().getName() + "</type>\n";
+				write += "<number>" +acts.get(i).getNumber() + "</type>\n";
+				write += "<owner>" +acts.get(i).getOwner() + "</type>\n";
+				write += "<date>" +"<Fix Date in saveText>" + "</type>\n";
+				write += "<balance>" +acts.get(i).getBalance() + "</type>\n";
+				write += "<min>" +((SavingsAccount)acts.get(i)).getMinBalance() + "</type>\n";
+				write += "<interest>" +((SavingsAccount)acts.get(i)).getInterestRate() + "</type>\n";
+				write += "</account>\n";
+			}
+			
+		}
+		
+		
+		try {
+			BufferedWriter bf = new BufferedWriter(new FileWriter(fileName));
+			bf.write(write);
+			
+			bf.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	

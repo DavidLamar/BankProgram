@@ -33,7 +33,7 @@ public class BankGUI extends JFrame {
 		fileBar = new JMenuBar();
 		
 		//I know we'll need this later, but it's currently unused.
-		bModel = new BankModel();
+		bModel = new BankModel(this);
 
 		//set up the file bar
 		file = new JMenu("File");
@@ -111,6 +111,7 @@ public class BankGUI extends JFrame {
 		sortDate.addActionListener(listener);
 		sort.add(sortDate);
 
+		
 		//set up the JList
 		list = new JList(bModel); //data has type Object[]
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -152,14 +153,12 @@ public class BankGUI extends JFrame {
 
 			//load binary file
 			if (arg0.getSource() == loadBinary) {
-				//Need to specify a file when we have the actual table
-				//to test my method for this
-				//bModel.loadBinary();
+				bModel.loadBinary("BinaryFile");
 			}
 
 			//load text file
 			if (arg0.getSource() == loadText) {
-				System.out.println("Clicked: " + arg0.getSource());
+				bModel.loadText("TextFile");
 			}
 
 			//load XML file
@@ -169,28 +168,31 @@ public class BankGUI extends JFrame {
 
 			//save binary file
 			if (arg0.getSource() == saveBinary) {
-				//Need to specify a file when we have the actual table
-				//to test my method for this
-				//bModel.saveBinary();
+				bModel.saveBinary("BinaryFile");
 			}
 
 			//save text file
 			if (arg0.getSource() == saveText) {
-				System.out.println("Clicked: " + arg0.getSource());
+				bModel.saveText("TextFile");
 			}
 
 			//save XML file
 			if (arg0.getSource() == saveXML) {
-				System.out.println("Clicked: " + arg0.getSource());
+				bModel.saveXML("XMLFile");
 			}
 
 			//create a new bank account
 			if (arg0.getSource() == createAccount) {
-				System.out.println("Clicked: " + arg0.getSource());
 				//TODO - we need the input dialog here
 
 				//temp add for testing
-				bModel.addAccount(new CheckingAccount(123, "not Marc", new GregorianCalendar(), 12345, 1));
+				//bModel.addAccount(new CheckingAccount(123, "not Marc", new GregorianCalendar(), 12345, 1));
+				
+				Account newAcc = null;
+
+				JOptionPane.showInputDialog(new DialogBox(newAcc));
+				
+				bModel.addAccount(newAcc);
 			}
 			
 			//delete an existing bank account
