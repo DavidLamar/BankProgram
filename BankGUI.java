@@ -3,6 +3,7 @@ package BankProgram;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
@@ -15,6 +16,8 @@ public class BankGUI extends JFrame {
 	//list
 	BankModel bModel;
 	private JList list;
+
+	private JScrollPane listScroller;
 
 	//menu
 	private JMenu file, edit, sort;
@@ -114,8 +117,8 @@ public class BankGUI extends JFrame {
 		list.setVisibleRowCount(-1);
 
 		//Scroll pane
-		JScrollPane listScroller = new JScrollPane(list);
-		listScroller.setPreferredSize(new Dimension(630, 470));
+		listScroller = new JScrollPane(list);
+		listScroller.setPreferredSize(new Dimension(630, 410));
 
 		programPannel.add(listScroller);
 	}
@@ -183,13 +186,20 @@ public class BankGUI extends JFrame {
 			//create a new bank account
 			if (arg0.getSource() == createAccount) {
 				System.out.println("Clicked: " + arg0.getSource());
+				//TODO - we need the input dialog here
+
+				//temp add for testing
+				bModel.addAccount(new CheckingAccount(123, "not Marc", new GregorianCalendar(), 12345, 1));
 			}
 			
 			//delete an existing bank account
 			if (arg0.getSource() == deleteAccount) {
-				System.out.println("Clicked: " + arg0.getSource());
+
+				if (!list.isSelectionEmpty()) {
+					bModel.deleteAccount(list.getAnchorSelectionIndex());
+				}
+				list.clearSelection();
 			}
-			
 			//update an existing account
 			if (arg0.getSource() == updateAccount) {
 				System.out.println("Clicked: " + arg0.getSource());

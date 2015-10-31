@@ -20,10 +20,11 @@ public class BankModel extends AbstractListModel {
 	public BankModel() {
 
 		acts = new ArrayList<Account>();
-		acts.add(new CheckingAccount(123, "Marc", new GregorianCalendar(), 12345, 1));
-		acts.add(new CheckingAccount(123, "Marc", new GregorianCalendar(), 12345, 1));
-		acts.add(new CheckingAccount(123, "Marc", new GregorianCalendar(), 12345, 1));
-		acts.add(new CheckingAccount(123, "Marc", new GregorianCalendar(), 12345, 1));
+
+		//test accounts to test scroll panel
+		for(int i = 0; i < 25; i++){
+			acts.add(new CheckingAccount(123, "Marc " + i, new GregorianCalendar(), 12345, 1));
+		}
 	}
 
 	// override these two methods from AbstractListModel class
@@ -41,16 +42,18 @@ public class BankModel extends AbstractListModel {
 	
 /*************************** Account *********************************/
 	
-	public void addAccount(){
-		
+	public void addAccount(Account act){
+		acts.add(act);
+		fireContentsChanged(this, 0 , getSize() - 1);
 	}
 	
 	public void findAccount(){
 		
 	}
 	
-	public void deleteAccount(){
-		
+	public void deleteAccount(int i){
+		acts.remove(i);
+		fireContentsChanged(this, 0 , getSize() - 1);
 	}
 	
 	public void updateAccount(){
