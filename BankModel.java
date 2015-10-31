@@ -38,9 +38,9 @@ public class BankModel extends AbstractListModel<Object> {
 	@Override
 	public Object getElementAt(int arg0) {
 		//TODO - Make this nice / column headers(easy once we are using a table)
-		return String.format("Account Number: %s Name: %s Balance: %s", 
+		return String.format("Account Number: %s Name: %s Balance: %s Date: %s", 
 				acts.get(arg0).getNumber(), acts.get(arg0).getOwner(), 
-				acts.get(arg0).getBalance());
+				acts.get(arg0).getBalance(), acts.get(arg0).getDateOpened().getTime());
 	}
 
 	@Override
@@ -108,6 +108,7 @@ public class BankModel extends AbstractListModel<Object> {
 			Scanner read = new Scanner(new File(fileName));
 			String[] info;
 			Account temp;
+			String[] date;
 			
 			//removes all current accounts
 			for(int i=0; i<acts.size();){
@@ -117,12 +118,14 @@ public class BankModel extends AbstractListModel<Object> {
 			while(read.hasNextLine()){
 				info = read.nextLine().split("\\|");
 
+				date = info[3].split("/");
+				
 				//****GOTTA FIX GREGORIAN CALENDAR STUFF
 				if(info[0].equals("BankProgram.CheckingAccount")){
 					temp = new CheckingAccount(
 							Integer.parseInt(info[1]), 
 							info[2], 
-							new GregorianCalendar(), 
+							new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[0]), Integer.parseInt(date[1])), 
 							Double.parseDouble(info[4]),
 							Double.parseDouble(info[5]));
 					
@@ -132,7 +135,7 @@ public class BankModel extends AbstractListModel<Object> {
 					temp = new SavingsAccount(
 							Integer.parseInt(info[1]),
 							info[2],
-							new GregorianCalendar(),
+							new GregorianCalendar(Integer.parseInt(date[2]), Integer.parseInt(date[0]), Integer.parseInt(date[1])),
 							Double.parseDouble(info[4]),
 							Double.parseDouble(info[5]),
 							Double.parseDouble(info[6]));
@@ -288,14 +291,20 @@ public class BankModel extends AbstractListModel<Object> {
 				write += acts.get(i).getClass().getName() + "|";
 				write += acts.get(i).getNumber() + "|";
 				write += acts.get(i).getOwner() + "|";
-				write += "<Fix Date in saveText>" + "|";
+				write += 
+						acts.get(i).getDateOpened().get(GregorianCalendar.MONTH) + "/" +
+						acts.get(i).getDateOpened().get(GregorianCalendar.DAY_OF_MONTH) +
+						"/"+acts.get(i).getDateOpened().get(GregorianCalendar.YEAR) + "|";
 				write += acts.get(i).getBalance() + "|";
 				write += ((CheckingAccount)acts.get(i)).getMonthlyFee() + "\n";
 			}else{
 				write += acts.get(i).getClass().getName() + "|";
 				write += acts.get(i).getNumber() + "|";
 				write += acts.get(i).getOwner() + "|";
-				write += "<Fix Date in saveText>" + "|";
+				write += 
+						acts.get(i).getDateOpened().get(GregorianCalendar.MONTH) + "/" +
+						acts.get(i).getDateOpened().get(GregorianCalendar.DAY_OF_MONTH) +
+						"/"+acts.get(i).getDateOpened().get(GregorianCalendar.YEAR) + "|";
 				write += acts.get(i).getBalance() + "|";
 				write += ((SavingsAccount)acts.get(i)).getMinBalance() + "|";
 				write += ((SavingsAccount)acts.get(i)).getInterestRate() + "\n";

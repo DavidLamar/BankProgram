@@ -117,20 +117,25 @@ public class DialogBox extends JDialog implements ActionListener{
 		}
 		
 		if(e.getSource() == Create){
+			String[] date = Date.getText().split("/");
+			int day = Integer.parseInt(date[1]);
+			int month = Integer.parseInt(date[0]) - 1;
+			int year = Integer.parseInt(date[2]);
+			System.out.println(day + " " + month + " " + year);
 			
 			//Checks what type of account it is, and makes the accounts
 			if(Checking.isSelected()){
 				acc = new CheckingAccount(
 						Integer.parseInt(Number.getText()), 
 						Owner.getText(),
-						new GregorianCalendar(),
+						new GregorianCalendar(year, month, day),
 						Double.parseDouble(Balance.getText()),
 						Double.parseDouble(Fee.getText()) );
 			}else{
 				acc = new SavingsAccount(
 						Integer.parseInt(Number.getText()), 
 						Owner.getText(),
-						new GregorianCalendar(),
+						new GregorianCalendar(year, month, day),
 						Double.parseDouble(Balance.getText()),
 						Double.parseDouble(minBalance.getText()),
 						Double.parseDouble(Interest.getText()));
