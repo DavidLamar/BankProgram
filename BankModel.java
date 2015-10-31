@@ -31,8 +31,8 @@ public class BankModel extends AbstractListModel {
 
 	@Override
 	public Object getElementAt(int arg0) {
-		//TODO - show relevant info not just the name
-		return acts.get(arg0).getOwner();
+		//TODO - Make this nice / column headers(easy once we are using a table)
+		return String.format("Account Number: %s Name: %s Balance: %s", acts.get(arg0).getNumber(), acts.get(arg0).getOwner(), acts.get(arg0).getBalance());
 	}
 
 	@Override

@@ -84,6 +84,7 @@ public class BankGUI extends JFrame {
 		
 		
 		//Edit:
+		//TODO - Make different JMenuItems for different account types?
 		createAccount = new JMenuItem("Start new Account");
 		createAccount.addActionListener(listener);
 		edit.add(createAccount);

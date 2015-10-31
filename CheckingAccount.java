@@ -15,7 +15,7 @@ public class CheckingAccount extends Account {
 		this.monthlyFee = monthlyFee;
 	}
 
-	// add getter, setter, equals(), and toString() methods
+	// equals(), and toString() methods
 
 	//Monthly fee
 	public double getMonthlyFee() {
