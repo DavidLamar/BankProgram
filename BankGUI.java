@@ -151,6 +151,7 @@ public class BankGUI extends JFrame {
 			//All of the events; we can delete the print statements
 			//whenever; they're just there to make sure buttons work.
 
+//*****************************Load************************************
 			//load binary file
 			if (arg0.getSource() == loadBinary) {
 				bModel.loadBinary("BinaryFile");
@@ -166,6 +167,8 @@ public class BankGUI extends JFrame {
 				bModel.loadXML("XMLFile");
 			}
 
+			
+//*****************************Save************************************
 			//save binary file
 			if (arg0.getSource() == saveBinary) {
 				bModel.saveBinary("BinaryFile");
@@ -181,6 +184,8 @@ public class BankGUI extends JFrame {
 				bModel.saveXML("XMLFile");
 			}
 
+			
+//****************************Accounts*********************************
 			//create a new bank account
 			if (arg0.getSource() == createAccount) {
 				//TODO - we need the input dialog here
@@ -188,11 +193,13 @@ public class BankGUI extends JFrame {
 				//temp add for testing
 				//bModel.addAccount(new CheckingAccount(123, "not Marc", new GregorianCalendar(), 12345, 1));
 				
-				Account newAcc = null;
-
-				JOptionPane.showInputDialog(new DialogBox(newAcc));
+				Account act = null;
+				JPanel jp = new DialogBox(act);
 				
-				bModel.addAccount(newAcc);
+				Object[] options = {"Create Account", "Cancel"};
+				JOptionPane.showOptionDialog(null, jp, "Add an Account", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
+				
+				//bModel.addAccount(act);
 			}
 			
 			//delete an existing bank account
@@ -203,10 +210,12 @@ public class BankGUI extends JFrame {
 				}
 				list.clearSelection();
 			}
+			
 			//update an existing account
 			if (arg0.getSource() == updateAccount) {
 				System.out.println("Clicked: " + arg0.getSource());
 			}
+			
 			
 			//sort table by account number
 			if (arg0.getSource() == sortNumber) {
