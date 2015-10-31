@@ -4,18 +4,19 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class BankGUI extends JFrame {
 
 	//Instance Variables
 	private static JPanel programPannel;
 	private static JMenuBar fileBar;
+
+	//list
 	BankModel bModel;
+	private JList list;
+
+	//menu
 	private JMenu file, edit, sort;
 	private JMenuItem loadBinary, loadText, loadXML, saveBinary, 
 	saveText, saveXML, exit, createAccount, deleteAccount, 
@@ -30,8 +31,7 @@ public class BankGUI extends JFrame {
 		
 		//I know we'll need this later, but it's currently unused.
 		bModel = new BankModel();
-		
-		
+
 		//set up the file bar
 		file = new JMenu("File");
 		edit = new JMenu("Edit");
@@ -106,8 +106,18 @@ public class BankGUI extends JFrame {
 		sortDate = new JMenuItem("Sort by Date Opened");
 		sortDate.addActionListener(listener);
 		sort.add(sortDate);
-		
-		
+
+		//set up the JList
+		list = new JList(bModel); //data has type Object[]
+		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL);
+		list.setVisibleRowCount(-1);
+
+		//Scroll pane
+		JScrollPane listScroller = new JScrollPane(list);
+		listScroller.setPreferredSize(new Dimension(630, 470));
+
+		programPannel.add(listScroller);
 	}
 	
 	public static void main(String[] args){

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 import javax.swing.AbstractListModel;
 
@@ -16,12 +17,24 @@ public class BankModel extends AbstractListModel {
 
 	// constructor method that initializes the arraylist
 
-	// override these two methods from AbstractListModel class
+	public BankModel() {
 
-	public Object getElementAt(int arg0) {
-		return acts.get(arg0);
+		acts = new ArrayList<Account>();
+		acts.add(new CheckingAccount(123, "Marc", new GregorianCalendar(), 12345, 1));
+		acts.add(new CheckingAccount(123, "Marc", new GregorianCalendar(), 12345, 1));
+		acts.add(new CheckingAccount(123, "Marc", new GregorianCalendar(), 12345, 1));
+		acts.add(new CheckingAccount(123, "Marc", new GregorianCalendar(), 12345, 1));
 	}
 
+	// override these two methods from AbstractListModel class
+
+	@Override
+	public Object getElementAt(int arg0) {
+		//TODO - show relevant info not just the name
+		return acts.get(arg0).getOwner();
+	}
+
+	@Override
 	public int getSize() {
 		return acts.size();
 	}
@@ -56,7 +69,8 @@ public class BankModel extends AbstractListModel {
 			in = new FileInputStream(fileName);
 			objIn = new ObjectInputStream(in);
 			acts = (ArrayList<Account>) objIn.readObject();
-			//TODO - Add the fire update thing here so it updates
+			// tell the JList to update
+			fireContentsChanged(this, 0, acts.size() - 1);
 		} catch(Exception e){
 			System.out.println("Could not load file!");
 		}
