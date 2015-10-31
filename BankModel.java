@@ -95,6 +95,8 @@ public class BankModel extends AbstractListModel {
 			Scanner read = new Scanner(new File(fileName));
 			String[] info;
 			Account temp;
+			
+			//removes all current accounts
 			for(int i=0; i<acts.size();){
 				acts.remove(i);
 			}
@@ -134,8 +136,107 @@ public class BankModel extends AbstractListModel {
 		}
 	}
 	
-	public void loadXML(){
-		
+	public void loadXML(String fileName){
+		try {
+			Scanner read = new Scanner(new File(fileName));
+			String info;
+			String type = null;
+			String data[] = null;
+			Account temp;
+			
+			//removes all current accounts
+			for(int i=0; i<acts.size();){
+				acts.remove(i);
+			}
+
+			while(read.hasNextLine()){
+				info = read.nextLine();
+				if(info.equals("<account>")){
+					
+					info = read.nextLine();
+					while(!info.equals("</account>")){
+						
+						if(info.equals(null) || !read.hasNextLine()){
+							break;
+						}
+						
+						System.out.println(info);
+						
+						if(info.equals("<type>")){
+							type = read.nextLine();
+							info = read.nextLine();
+							continue;
+						}
+						if(info.equals("<number>")){
+							data[0] = read.nextLine();
+							info = read.nextLine();
+							continue;
+						}
+						if(info.equals("<owner>")){
+							data[1] = read.nextLine();
+							info = read.nextLine();
+							continue;
+						}
+						if(info.equals("<date>")){
+							data[2] = read.nextLine();
+							info = read.nextLine();
+							continue;
+						}
+						if(info.equals("<balance>")){
+							data[3] = read.nextLine();
+							info = read.nextLine();
+							continue;
+						}
+						if(info.equals("<fee>")){
+							data[4] = read.nextLine();
+							info = read.nextLine();
+							continue;
+						}
+						if(info.equals("<min>")){
+							data[5] = read.nextLine();
+							info =read.nextLine();
+							continue;
+						}
+						if(info.equals("<interest>")){
+							data[6] = read.nextLine();
+							info = read.nextLine();
+							continue;
+						}
+						
+						info = read.nextLine();
+					}
+					
+					//after we have all the info, check account type
+					if(type.equals("BankProgram.CheckingAccount")){
+						temp = new CheckingAccount(
+								Integer.parseInt(data[0]), 
+								data[1], 
+								new GregorianCalendar(), 
+								Double.parseDouble(data[3]),
+								Double.parseDouble(data[4]));
+						
+						acts.add(temp);
+					}else{
+						temp = new SavingsAccount(
+								Integer.parseInt(data[0]),
+								data[1],
+								new GregorianCalendar(),
+								Double.parseDouble(data[3]),
+								Double.parseDouble(data[5]),
+								Double.parseDouble(data[6]));
+						
+						acts.add(temp);
+					}
+					
+				}
+			}
+			fireContentsChanged(this, 0, acts.size() - 1);
+			read.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -210,22 +311,22 @@ public class BankModel extends AbstractListModel {
 			//checks if it's savings or checking
 			if(acts.get(i).getClass().getName().equals("BankProgram.CheckingAccount")){
 				write += "<account>\n";
-				write += "<type>" + acts.get(i).getClass().getName() + "</type>\n";
-				write += "<number>" + acts.get(i).getNumber() + "</number>\n";
-				write += "<owner>" + acts.get(i).getOwner() + "</owner>\n";
-				write += "<date>" + "<Fix Date in saveText>" + "</date>\n";
-				write += "<balance>" + acts.get(i).getBalance() + "</balance>\n";
-				write += "<fee>" + ((CheckingAccount)acts.get(i)).getMonthlyFee() + "</fee>\n";
+				write += "<type>\n" + acts.get(i).getClass().getName() + "\n</type>\n";
+				write += "<number>\n" + acts.get(i).getNumber() + "\n</number>\n";
+				write += "<owner>\n" + acts.get(i).getOwner() + "\n</owner>\n";
+				write += "<date>\n" + "<Fix Date in saveText>" + "\n</date>\n";
+				write += "<balance>\n" + acts.get(i).getBalance() + "\n</balance>\n";
+				write += "<fee>\n" + ((CheckingAccount)acts.get(i)).getMonthlyFee() + "\n</fee>\n";
 				write += "</account>\n";
 			}else{
 				write += "<account>\n";
-				write += "<type>" +acts.get(i).getClass().getName() + "</type>\n";
-				write += "<number>" +acts.get(i).getNumber() + "</type>\n";
-				write += "<owner>" +acts.get(i).getOwner() + "</type>\n";
-				write += "<date>" +"<Fix Date in saveText>" + "</type>\n";
-				write += "<balance>" +acts.get(i).getBalance() + "</type>\n";
-				write += "<min>" +((SavingsAccount)acts.get(i)).getMinBalance() + "</type>\n";
-				write += "<interest>" +((SavingsAccount)acts.get(i)).getInterestRate() + "</type>\n";
+				write += "<type>\n" +acts.get(i).getClass().getName() + "\n</type>\n";
+				write += "<number>\n" +acts.get(i).getNumber() + "\n</type>\n";
+				write += "<owner>\n" +acts.get(i).getOwner() + "\n</type>\n";
+				write += "<date>\n" +"<Fix Date in saveText>" + "\n</type>\n";
+				write += "<balance>\n" +acts.get(i).getBalance() + "\n</type>\n";
+				write += "<min>\n" +((SavingsAccount)acts.get(i)).getMinBalance() + "\n</type>\n";
+				write += "<interest>\n" +((SavingsAccount)acts.get(i)).getInterestRate() + "\n</type>\n";
 				write += "</account>\n";
 			}
 			

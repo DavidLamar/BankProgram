@@ -163,7 +163,7 @@ public class BankGUI extends JFrame {
 
 			//load XML file
 			if (arg0.getSource() == loadXML) {
-				System.out.println("Clicked: " + arg0.getSource());
+				bModel.loadXML("XMLFile");
 			}
 
 			//save binary file
