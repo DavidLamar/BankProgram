@@ -1,6 +1,7 @@
 package BankProgram;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.GregorianCalendar;
@@ -27,6 +28,7 @@ public class DialogBox extends JDialog implements ActionListener{
 	
 	JPanel look;
 	
+	
 	public DialogBox(JFrame f){
 		super(f, true);
 		setTitle("Add an Account");
@@ -34,6 +36,7 @@ public class DialogBox extends JDialog implements ActionListener{
 		
 		look = new JPanel();
 		look.setPreferredSize(new Dimension(300,300));
+		look.setLayout(new GridLayout(9, 2));
 		
 		rButtons = new ButtonGroup();
 		Checking = new JRadioButton("Checking");
@@ -80,6 +83,8 @@ public class DialogBox extends JDialog implements ActionListener{
 		Create.addActionListener(this);
 		look.add(Create);
 		look.add(Cancel);
+		
+		
 		
 		setContentPane(look);
 		pack();
@@ -129,6 +134,7 @@ public class DialogBox extends JDialog implements ActionListener{
 	}
 	
 	public Account getAccount(){
+		//TODO - Return null if acc data is not correct or whatever
 		return acc;
 	}
 	

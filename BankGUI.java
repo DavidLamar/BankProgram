@@ -9,6 +9,7 @@ import javax.swing.*;
 
 public class BankGUI extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	//Instance Variables
 	private static JPanel programPannel;
 	private static JMenuBar fileBar;
@@ -16,6 +17,7 @@ public class BankGUI extends JFrame {
 
 	//list
 	BankModel bModel;
+	@SuppressWarnings("rawtypes")
 	private JList list;
 
 	private JScrollPane listScroller;
@@ -28,6 +30,7 @@ public class BankGUI extends JFrame {
 	
 	
 	
+	@SuppressWarnings("unchecked")
 	public BankGUI(){
 		//Set up the panels and stuff we need to make everything appear
 		programPannel = new JPanel();

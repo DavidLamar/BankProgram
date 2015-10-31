@@ -1,6 +1,5 @@
 package BankProgram;
 
-import java.awt.Dimension;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,8 +18,9 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class BankModel extends AbstractListModel {
+public class BankModel extends AbstractListModel<Object> {
 
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Account> acts;
 	private JFrame GUI;
 	private JDialog jd;
@@ -57,8 +57,13 @@ public class BankModel extends AbstractListModel {
 		
 		Account act = ((DialogBox) jd).getAccount();
 		
-		acts.add(act);
-		fireContentsChanged(this, 0 , getSize() - 1);
+		if(act != null){
+			acts.add(act);
+			fireContentsChanged(this, 0 , getSize() - 1);
+		}else{
+			JOptionPane.showMessageDialog(null, "Account not created!");
+		}
+		
 	}
 	
 	public void findAccount(){
