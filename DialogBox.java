@@ -34,10 +34,12 @@ public class DialogBox extends JDialog implements ActionListener{
 		setTitle("Add an Account");
 		this.setPreferredSize(new Dimension(300,300));
 		
+		//Initialize main panel
 		look = new JPanel();
 		look.setPreferredSize(new Dimension(300,300));
 		look.setLayout(new GridLayout(9, 2));
 		
+		//Radio Buttons for checkings and savings
 		rButtons = new ButtonGroup();
 		Checking = new JRadioButton("Checking");
 		Savings = new JRadioButton("Savings");
@@ -47,11 +49,10 @@ public class DialogBox extends JDialog implements ActionListener{
 		Checking.setSelected(true);
 		Checking.addActionListener(this);
 		Savings.addActionListener(this);
-		
-		
 		look.add(Checking);
 		look.add(Savings);
 		
+		//Text fields and labels:
 		Number = new JTextField(10);
 		Owner = new JTextField(10);
 		Date = new JTextField(10);
@@ -77,6 +78,8 @@ public class DialogBox extends JDialog implements ActionListener{
 		look.add(new JLabel("Interest Rate: "));
 		look.add(Interest);
 		
+		
+		//Create and cancel buttons:
 		Create = new JButton("Create Account");
 		Cancel = new JButton("Cancel");
 		Cancel.addActionListener(this);
@@ -94,24 +97,28 @@ public class DialogBox extends JDialog implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//Enables fee for checking and disables savings fields
 		if(e.getSource() == Checking){
 			Interest.setEnabled(false);
 			minBalance.setEnabled(false);
 			Fee.setEnabled(true);
 		}
 		
+		//Enables savings fields, dissables checking feilds
 		if(e.getSource() == Savings){
 			Interest.setEnabled(true);
 			minBalance.setEnabled(true);
 			Fee.setEnabled(false);
 		}
 		
+		//Gets rid of window if cancel is hit
 		if(e.getSource() == Cancel){
 			dispose();
 		}
 		
 		if(e.getSource() == Create){
 			
+			//Checks what type of account it is, and makes the accounts
 			if(Checking.isSelected()){
 				acc = new CheckingAccount(
 						Integer.parseInt(Number.getText()), 

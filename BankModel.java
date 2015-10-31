@@ -55,6 +55,7 @@ public class BankModel extends AbstractListModel<Object> {
 		jd = new DialogBox(GUI);
 		jd.setVisible(true);
 		
+		//Gets the new account from the dialog box
 		Account act = ((DialogBox) jd).getAccount();
 		
 		if(act != null){
@@ -78,7 +79,8 @@ public class BankModel extends AbstractListModel<Object> {
 		fireContentsChanged(this, 0 , getSize() - 1);
 	}
 	
-	public void updateAccount(){
+	public void updateAccount(int i){
+
 		
 	}
 	

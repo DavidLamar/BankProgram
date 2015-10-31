@@ -192,11 +192,6 @@ public class BankGUI extends JFrame {
 //****************************Accounts*********************************
 			//create a new bank account
 			if (arg0.getSource() == createAccount) {
-				//TODO - we need the input dialog here
-
-				//temp add for testing
-				//bModel.addAccount(new CheckingAccount(123, "not Marc", new GregorianCalendar(), 12345, 1));
-			
 				bModel.addAccount();
 			}
 			
