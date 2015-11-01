@@ -17,8 +17,9 @@ import javax.swing.AbstractListModel;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
 
-public class BankModel extends AbstractListModel<Object> {
+public class BankModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Account> acts;
@@ -31,22 +32,104 @@ public class BankModel extends AbstractListModel<Object> {
 
 		acts = new ArrayList<Account>();
 		GUI = bGUI;
+		
 	}
 
-	// override these two methods from AbstractListModel class
-
+	
 	@Override
-	public Object getElementAt(int arg0) {
-		//TODO - Make this nice / column headers(easy once we are using a table)
-		return String.format("Account Number: %s Name: %s Balance: %s Date: %s", 
-				acts.get(arg0).getNumber(), acts.get(arg0).getOwner(), 
-				acts.get(arg0).getBalance(), acts.get(arg0).getDateOpened().getTime());
+	public int getColumnCount() {
+		// TODO Auto-generated method stub
+		return 8;
 	}
 
 	@Override
-	public int getSize() {
+	public int getRowCount() {
+		// TODO Auto-generated method stub
 		return acts.size();
 	}
+	
+	@Override
+	public String getColumnName(int col){
+		switch(col){
+		case 0:
+			return "Type";
+		case 1:
+			return "Number";
+		case 2:
+			return "Owner";
+		case 3:
+			return "Date Opened";
+		case 4:
+			return "Balance";
+		case 5:
+			return "Monthly Fee";
+		case 6:
+			return "Minimum Balance";
+		case 7:
+			return "Interest Rate";
+		default:
+			return "";	
+			
+		}
+	}
+
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) {
+		
+		Account temp = acts.get(rowIndex);
+		String type = temp.getClass().getSimpleName();
+		
+		switch(columnIndex){
+		case 0:
+			if(type.equals("CheckingAccount")){
+				return "Checking";
+			}else{
+				return "Savings";
+			}
+		case 1:
+			return temp.getNumber();
+		case 2:
+			return temp.getOwner();
+		case 3:
+			return temp.getDateOpened().get(GregorianCalendar.MONTH) + "/" +
+				temp.getDateOpened().get(GregorianCalendar.DAY_OF_MONTH) + "/"
+				+ temp.getDateOpened().get(GregorianCalendar.YEAR);
+		case 4:
+			return temp.getBalance();
+		case 5:
+			if(type.equals("CheckingAccount")){
+				return ((CheckingAccount) temp).getMonthlyFee();
+			}
+			return "--";
+		case 6:
+			if(type.equals("SavingsAccount")){
+				return ((SavingsAccount) temp).getMinBalance();
+			}
+			return "--";
+		case 7:
+			if(type.equals("SavingsAccount")){
+				return ((SavingsAccount) temp).getInterestRate();
+			}
+			return "--";
+		default:
+			return null;
+		}
+
+	}
+	
+//	// override these two methods from AbstractListModel class
+//	@Override
+//	public Object getElementAt(int arg0) {
+//		//TODO - Make this nice / column headers(easy once we are using a table)
+//		return String.format("Account Number: %s Name: %s Balance: %s Date: %s", 
+//				acts.get(arg0).getNumber(), acts.get(arg0).getOwner(), 
+//				acts.get(arg0).getBalance(), acts.get(arg0).getDateOpened().getTime());
+//	}
+//
+//	@Override
+//	public int getSize() {
+//		return acts.size();
+//	}
 	
 /*************************** Account *********************************/
 	
@@ -60,7 +143,7 @@ public class BankModel extends AbstractListModel<Object> {
 		
 		if(act != null){
 			acts.add(act);
-			fireContentsChanged(this, 0 , getSize() - 1);
+			fireTableDataChanged();
 		}else{
 			JOptionPane.showMessageDialog(null, "Account not created!");
 		}
@@ -76,7 +159,7 @@ public class BankModel extends AbstractListModel<Object> {
 				acts.get(i).getNumber());
 
 		acts.remove(i);
-		fireContentsChanged(this, 0 , getSize() - 1);
+		fireTableDataChanged();
 	}
 	
 	public void updateAccount(int i){
@@ -97,7 +180,7 @@ public class BankModel extends AbstractListModel<Object> {
 			objIn = new ObjectInputStream(in);
 			acts = (ArrayList<Account>) objIn.readObject();
 			// tell the JList to update
-			fireContentsChanged(this, 0, acts.size() - 1);
+			fireTableDataChanged();
 		} catch(Exception e){
 			System.out.println("Could not load file!");
 		}
@@ -144,7 +227,7 @@ public class BankModel extends AbstractListModel<Object> {
 				}
 			}
 			
-			fireContentsChanged(this, 0, acts.size() - 1);
+			fireTableDataChanged();
 			read.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -380,6 +463,8 @@ public class BankModel extends AbstractListModel<Object> {
 	public void sortDate(){
 		
 	}
+
+
 	
 	
 	

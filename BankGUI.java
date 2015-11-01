@@ -3,22 +3,25 @@ package BankProgram;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
 public class BankGUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private static final int WIDTH = 700;
+	private static final int HEIGHT = 500;
 	//Instance Variables
 	private static JPanel programPannel;
 	private static JMenuBar fileBar;
 	
 
-	//list
+	//table
 	BankModel bModel;
+	
 	@SuppressWarnings("rawtypes")
 	private JList list;
+	private JTable table;
 
 	private JScrollPane listScroller;
 
@@ -115,15 +118,23 @@ public class BankGUI extends JFrame {
 		sort.add(sortDate);
 
 		
-		//set up the JList
-		list = new JList(bModel); //data has type Object[]
-		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		list.setLayoutOrientation(JList.VERTICAL);
-		list.setVisibleRowCount(-1);
+//		//set up the JList
+//		list = new JList(bModel); //data has type Object[]
+//		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+//		list.setLayoutOrientation(JList.VERTICAL);
+//		list.setVisibleRowCount(-1);
 
+		
+		//Set up the table
+		table = new JTable(bModel); //modify bModel later to make it work correctly
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setVisible(true);
+		
+		
 		//Scroll pane
-		listScroller = new JScrollPane(list);
-		listScroller.setPreferredSize(new Dimension(630, 410));
+		listScroller = new JScrollPane(table);
+		listScroller.setPreferredSize(new Dimension(WIDTH-10, HEIGHT - 70));
 
 		programPannel.add(listScroller);
 		
@@ -136,7 +147,7 @@ public class BankGUI extends JFrame {
 		bank.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		bank.setTitle("Bank Program");
 		
-		bank.setPreferredSize(new Dimension(640, 480));
+		bank.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		
 		bank.setJMenuBar(fileBar);
 		
