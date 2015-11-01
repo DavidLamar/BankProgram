@@ -139,6 +139,7 @@ public abstract class Account implements Serializable {
 	 *****************************************************************/
 	public int compareTo(int type, Account act){
 		switch(type){
+		//Checks which account number is greater
 		case 0:
 			if(getNumber() < act.getNumber()){
 				return -1;
@@ -148,12 +149,12 @@ public abstract class Account implements Serializable {
 				return 1;
 			}
 			return 0;
+		//checks which account owner is greater
 		case 1:
-			
-			return 0;
+			return getOwner().compareTo(act.getOwner());
+		//Checks which date is greater
 		case 2:
-			
-			return 0;
+			return getDateOpened().compareTo(act.getDateOpened());
 		default:
 			return 0;
 		}

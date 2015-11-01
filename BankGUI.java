@@ -228,12 +228,12 @@ public class BankGUI extends JFrame {
 			
 			//sort table by account owner
 			if (arg0.getSource() == sortOwner) {
-				System.out.println("Clicked: " + arg0.getSource());
+				bModel.sortOwner();
 			}
 			
 			//sort table by date opened
 			if (arg0.getSource() == sortDate) {
-				System.out.println("Clicked: " + arg0.getSource());
+				bModel.sortDate();
 			}
 			
 			//Exit the Program
