@@ -223,7 +223,7 @@ public class BankGUI extends JFrame {
 			
 			//sort table by account number
 			if (arg0.getSource() == sortNumber) {
-				System.out.println("Clicked: " + arg0.getSource());
+				bModel.sortAccountNumber();
 			}
 			
 			//sort table by account owner

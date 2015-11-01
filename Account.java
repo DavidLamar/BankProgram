@@ -63,4 +63,26 @@ public abstract class Account implements Serializable {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
+	
+	public int compareTo(int type, Account act){
+		switch(type){
+		case 0:
+			if(getNumber() < act.getNumber()){
+				return -1;
+			}
+			
+			if(getNumber() > act.getNumber()){
+				return 1;
+			}
+			return 0;
+		case 1:
+			
+			return 0;
+		case 2:
+			
+			return 0;
+		default:
+			return 0;
+		}
+	}
 }

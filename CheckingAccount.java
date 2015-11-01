@@ -25,4 +25,5 @@ public class CheckingAccount extends Account {
 	public void setMonthlyFee(double monthlyFee) {
 		this.monthlyFee = monthlyFee;
 	}
+	
 }

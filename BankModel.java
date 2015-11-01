@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
@@ -38,13 +39,11 @@ public class BankModel extends AbstractTableModel {
 	
 	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
 		return 8;
 	}
 
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
 		return acts.size();
 	}
 	
@@ -453,15 +452,18 @@ public class BankModel extends AbstractTableModel {
 /****************************** Sort *********************************/
 	
 	public void sortAccountNumber(){
-		
+		Collections.sort(acts, new AccountNumberSort());
+		fireTableDataChanged();
 	}
 	
 	public void sortOwner(){
-		
+		Collections.sort(acts, new AccountOwnerSort());
+		fireTableDataChanged();
 	}
 	
 	public void sortDate(){
-		
+		Collections.sort(acts, new DateOpenedSort());
+		fireTableDataChanged();
 	}
 
 
