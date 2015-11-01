@@ -209,10 +209,10 @@ public class BankGUI extends JFrame {
 			//delete an existing bank account
 			if (arg0.getSource() == deleteAccount) {
 
-				if (!list.isSelectionEmpty()) {
-					bModel.deleteAccount(list.getAnchorSelectionIndex());
+				if (table.getSelectedRow() != -1) {
+					bModel.deleteAccount(table.getSelectedRow());
 				}
-				list.clearSelection();
+				table.clearSelection();
 			}
 			
 			//update an existing account

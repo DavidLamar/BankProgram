@@ -91,7 +91,7 @@ public class BankModel extends AbstractTableModel {
 		case 2:
 			return temp.getOwner();
 		case 3:
-			return temp.getDateOpened().get(GregorianCalendar.MONTH) + "/" +
+			return (temp.getDateOpened().get(GregorianCalendar.MONTH)+1) + "/" +
 				temp.getDateOpened().get(GregorianCalendar.DAY_OF_MONTH) + "/"
 				+ temp.getDateOpened().get(GregorianCalendar.YEAR);
 		case 4:
