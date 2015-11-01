@@ -7,16 +7,16 @@ public abstract class Account implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	/** Holds the account number*/
+	/** Holds the account number */
 	private int number;
 	
-	/** Holds the account owner*/
+	/** Holds the account owner */
 	private String owner;
 	
-	/** Holds the date the account was opened*/
+	/** Holds the date the account was opened */
 	private GregorianCalendar dateOpened;
 	
-	/** Holds the account balance*/
+	/** Holds the account balance */
 	private double balance;
 
 	
@@ -36,7 +36,8 @@ public abstract class Account implements Serializable {
 	 * @dateOpened The date the account was opened
 	 * @balance The balance of the account
 	 *****************************************************************/
-	public Account(int number, String owner, GregorianCalendar dateOpened, double balance) {
+	public Account(int number, String owner, 
+			GregorianCalendar dateOpened, double balance) {
 
 		this.number = number;
 		this.owner = owner;
