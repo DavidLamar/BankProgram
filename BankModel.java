@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -119,7 +120,7 @@ public class BankModel extends AbstractTableModel {
 //	// override these two methods from AbstractListModel class
 //	@Override
 //	public Object getElementAt(int arg0) {
-//		//TODO - Make this nice / column headers(easy once we are using a table)
+//
 //		return String.format("Account Number: %s Name: %s Balance: %s Date: %s", 
 //				acts.get(arg0).getNumber(), acts.get(arg0).getOwner(), 
 //				acts.get(arg0).getBalance(), acts.get(arg0).getDateOpened().getTime());
@@ -163,7 +164,35 @@ public class BankModel extends AbstractTableModel {
 	
 	public void updateAccount(int i){
 
-		
+		if(acts.get(i) instanceof CheckingAccount) {
+			jd = new DialogBox(GUI,
+					acts.get(i).getNumber(),
+					acts.get(i).getOwner(),
+					//format date
+					new SimpleDateFormat("MM/dd/YY").format(acts.get(i).getDateOpened().getTime()) ,
+					acts.get(i).getBalance(),
+					((CheckingAccount) acts.get(i)).getMonthlyFee());
+		}else{
+			jd = new DialogBox(GUI,
+					acts.get(i).getNumber(),
+					acts.get(i).getOwner(),
+					//format date
+					new SimpleDateFormat("MM/dd/YY").format(acts.get(i).getDateOpened().getTime()) ,
+					acts.get(i).getBalance(),
+					((SavingsAccount) acts.get(i)).getMinBalance(),
+					((SavingsAccount) acts.get(i)).getInterestRate());
+		}
+		jd.setVisible(true);
+
+		//Gets the new account from the dialog box
+		Account act = ((DialogBox) jd).getAccount();
+
+		if(act != null){
+			acts.set(i, act);
+			fireTableDataChanged();
+		}else{
+			JOptionPane.showMessageDialog(null, "Account not created!");
+		}
 	}
 	
 	

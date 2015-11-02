@@ -1,9 +1,9 @@
 package BankProgram;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Arc2D;
 import java.util.GregorianCalendar;
 
 import javax.swing.ButtonGroup;
@@ -28,7 +28,7 @@ public class DialogBox extends JDialog implements ActionListener{
 	
 	JPanel look;
 	
-	
+	//blank
 	public DialogBox(JFrame f){
 		super(f, true);
 		setTitle("Add an Account");
@@ -62,7 +62,7 @@ public class DialogBox extends JDialog implements ActionListener{
 		minBalance.setEnabled(false);
 		Interest = new JTextField(10);
 		Interest.setEnabled(false);
-		
+
 		look.add(new JLabel("Account Number: "));
 		look.add(Number);
 		look.add(new JLabel("Account Owner: "));
@@ -93,7 +93,41 @@ public class DialogBox extends JDialog implements ActionListener{
 		pack();
 		
 	}
-	
+
+	//used for updating accounts
+	//they start full of data
+	//uses blank constructor then sets text values
+
+	//checking account
+	public DialogBox(JFrame f, int Number, String Owner, String Date, double Balance, double Fee){
+		this(f);
+
+		//set text values
+		this.Number.setText(Integer.toString(Number));
+		this.Owner.setText(Owner);
+		this.Date.setText(Date);
+		this.Balance.setText(Double.toString(Balance));
+		this.Fee.setText(Double.toString(Fee));
+	}
+
+	//saving account
+	public DialogBox(JFrame f, int Number, String Owner, String Date, double Balance, double minBalance, double Interest){
+		this(f);
+
+		//set DialogBox to savingsAccount
+		Savings.setSelected(true);
+		this.Interest.setEnabled(true);
+		this.minBalance.setEnabled(true);
+		Fee.setEnabled(false);
+
+		//set text values
+		this.Number.setText(Integer.toString(Number));
+		this.Owner.setText(Owner);
+		this.Date.setText(Date);
+		this.Balance.setText(Double.toString(Balance));
+		this.minBalance.setText(Double.toString(minBalance));
+		this.Interest.setText(Double.toString(Interest));
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -122,7 +156,7 @@ public class DialogBox extends JDialog implements ActionListener{
 			int month = Integer.parseInt(date[0]) - 1;
 			int year = Integer.parseInt(date[2]);
 			System.out.println(day + " " + month + " " + year);
-			
+
 			//Checks what type of account it is, and makes the accounts
 			if(Checking.isSelected()){
 				acc = new CheckingAccount(

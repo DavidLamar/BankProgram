@@ -90,7 +90,6 @@ public class BankGUI extends JFrame {
 		
 		
 		//Edit:
-		//TODO - Make different JMenuItems for different account types?
 		createAccount = new JMenuItem("Start new Account");
 		createAccount.addActionListener(listener);
 		edit.add(createAccount);
@@ -217,7 +216,7 @@ public class BankGUI extends JFrame {
 			
 			//update an existing account
 			if (arg0.getSource() == updateAccount) {
-				System.out.println("Clicked: " + arg0.getSource());
+				bModel.updateAccount(table.getSelectedRow());
 			}
 			
 			
