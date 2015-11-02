@@ -19,8 +19,6 @@ public class BankGUI extends JFrame {
 	//table
 	BankModel bModel;
 	
-	@SuppressWarnings("rawtypes")
-	private JList list;
 	private JTable table;
 
 	private JScrollPane listScroller;
@@ -32,8 +30,6 @@ public class BankGUI extends JFrame {
 	updateAccount, sortNumber, sortOwner, sortDate;
 	
 	
-	
-	@SuppressWarnings("unchecked")
 	public BankGUI(){
 		//Set up the panels and stuff we need to make everything appear
 		programPannel = new JPanel();

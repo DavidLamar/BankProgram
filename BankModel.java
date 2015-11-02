@@ -258,8 +258,7 @@ public class BankModel extends AbstractTableModel {
 			fireTableDataChanged();
 			read.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Could not load file!");
 		}
 	}
 	
