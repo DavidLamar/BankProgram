@@ -129,7 +129,7 @@ public class DialogBox extends JDialog implements ActionListener{
 			Fee.setEnabled(true);
 		}
 		
-		//Enables savings fields, dissables checking feilds
+		//Enables savings fields, disables checking fields
 		if(e.getSource() == Savings){
 			Interest.setEnabled(true);
 			minBalance.setEnabled(true);
@@ -145,7 +145,7 @@ public class DialogBox extends JDialog implements ActionListener{
 			String[] date = Date.getText().split("/");
 
 			//check if it is a valid date and name is not empty
-			if(isValidDate(date) || Owner.getText().equals("")){
+			if(isValidDate(date) && !Owner.getText().equals("")){
 
 				int day = Integer.parseInt(date[1]);
 				int month = Integer.parseInt(date[0]) - 1;
