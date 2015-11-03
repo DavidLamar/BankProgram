@@ -357,6 +357,7 @@ public class BankModel extends AbstractTableModel {
 				acts.remove(i);
 			}
 
+			curLine = read.nextLine();
 			while(read.hasNextLine()){
 				curLine = read.nextLine();
 				
@@ -555,7 +556,7 @@ public class BankModel extends AbstractTableModel {
 	 *****************************************************************/
 	public void saveXML(String fileName){
 
-		String write = "";
+		String write = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 		
 		for(int i = 0; i < acts.size(); i++){
 			
