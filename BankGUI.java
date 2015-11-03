@@ -3,6 +3,8 @@ package BankProgram;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
@@ -28,6 +30,10 @@ public class BankGUI extends JFrame {
 	private JMenuItem loadBinary, loadText, loadXML, saveBinary, 
 	saveText, saveXML, exit, createAccount, deleteAccount, 
 	updateAccount, sortNumber, sortOwner, sortDate;
+	
+	private JPopupMenu editPopup;
+	JMenuItem createAccountPopup, deleteAccountPopup, 
+	updateAccountPopup, sortNumberPopup, sortOwnerPopup, sortDatePopup;
 	
 	
 	public BankGUI(){
@@ -125,7 +131,39 @@ public class BankGUI extends JFrame {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setVisible(true);
+		table.addMouseListener(new MouseMenuListener() );
 		
+		
+		//Set up right click menu stuff:
+		editPopup = new JPopupMenu();
+		//createAccountPopup, deleteAccountPopup, 
+		//updateAccountPopup, sortNumberPopup, sortOwnerPopup, sortDatePopup;
+		createAccountPopup = new JMenuItem("Create new Account");
+		createAccountPopup.addActionListener(listener);
+		
+		deleteAccountPopup = new JMenuItem("Delete Selected Account");
+		deleteAccountPopup.addActionListener(listener);
+		
+		updateAccountPopup = new JMenuItem("Update Selected Account");
+		updateAccountPopup.addActionListener(listener);
+		
+		sortNumberPopup = new JMenuItem("Sort by Account Number");
+		sortNumberPopup.addActionListener(listener);
+		
+		sortOwnerPopup = new JMenuItem("Sort by Account Owner");
+		sortOwnerPopup.addActionListener(listener);
+		
+		sortDatePopup = new JMenuItem("Sort by Date Opened");
+		sortDatePopup.addActionListener(listener);
+		
+		
+		editPopup.add(createAccountPopup);
+		editPopup.add(deleteAccountPopup);
+		editPopup.add(updateAccountPopup);
+		editPopup.addSeparator();
+		editPopup.add(sortNumberPopup);
+		editPopup.add(sortOwnerPopup);
+		editPopup.add(sortDatePopup);
 		
 		//Scroll pane
 		listScroller = new JScrollPane(table);
@@ -197,12 +235,12 @@ public class BankGUI extends JFrame {
 			
 //****************************Accounts*********************************
 			//create a new bank account
-			if (arg0.getSource() == createAccount) {
+			if (arg0.getSource() == createAccount || arg0.getSource() == createAccountPopup) {
 				bModel.addAccount();
 			}
 			
 			//delete an existing bank account
-			if (arg0.getSource() == deleteAccount) {
+			if (arg0.getSource() == deleteAccount || arg0.getSource() == deleteAccountPopup) {
 
 				if (table.getSelectedRow() != -1) {
 					bModel.deleteAccount(table.getSelectedRow());
@@ -211,23 +249,25 @@ public class BankGUI extends JFrame {
 			}
 			
 			//update an existing account
-			if (arg0.getSource() == updateAccount) {
-				bModel.updateAccount(table.getSelectedRow());
+			if (arg0.getSource() == updateAccount || arg0.getSource() == updateAccountPopup) {
+				if (table.getSelectedRow() != -1) {
+					bModel.updateAccount(table.getSelectedRow());
+				}
 			}
 			
 			
 			//sort table by account number
-			if (arg0.getSource() == sortNumber) {
+			if (arg0.getSource() == sortNumber || arg0.getSource() == sortNumberPopup) {
 				bModel.sortAccountNumber();
 			}
 			
 			//sort table by account owner
-			if (arg0.getSource() == sortOwner) {
+			if (arg0.getSource() == sortOwner || arg0.getSource() == sortOwnerPopup) {
 				bModel.sortOwner();
 			}
 			
 			//sort table by date opened
-			if (arg0.getSource() == sortDate) {
+			if (arg0.getSource() == sortDate || arg0.getSource() == sortDatePopup) {
 				bModel.sortDate();
 			}
 			
@@ -240,6 +280,26 @@ public class BankGUI extends JFrame {
 
 	}
 	
-	
+	private class MouseMenuListener extends MouseAdapter {
+		
+		public void mousePressed(MouseEvent ev) {
+	        if (ev.isPopupTrigger()) {
+	        	int row = table.rowAtPoint(ev.getPoint());
+	        	table.clearSelection();
+	        	table.changeSelection(row, 0, false, false);
+	          editPopup.show(ev.getComponent(), ev.getX(), ev.getY());
+	        }
+	      }
+
+		
+	      public void mouseReleased(MouseEvent ev) {
+	        if (ev.isPopupTrigger()) {
+	        	int row = table.rowAtPoint(ev.getPoint());
+	        	table.clearSelection();
+	        	table.changeSelection(row, 0, false, false);
+	        	editPopup.show(ev.getComponent(), ev.getX(), ev.getY());
+	        }
+	      }
+	}
 	
 }
