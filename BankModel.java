@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
-import javax.swing.AbstractListModel;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -263,106 +262,114 @@ public class BankModel extends AbstractTableModel {
 	}
 	
 	public void loadXML(String fileName){
-//		try {
-//			Scanner read = new Scanner(new File(fileName));
-//			String info;
-//			String type = null;
-//			String data[] = null;
-//			Account temp;
-//			
-//			//removes all current accounts
-//			for(int i=0; i<acts.size();){
-//				acts.remove(i);
-//			}
-//
-//			while(read.hasNextLine()){
-//				info = read.nextLine();
-//				if(info.equals("<account>")){
-//					
-//					info = read.nextLine();
-//					while(!info.equals("</account>")){
-//						
-//						if(info.equals(null) || !read.hasNextLine()){
-//							break;
-//						}
-//						
-//						System.out.println(info);
-//						
-//						if(info.equals("<type>")){
-//							type = read.nextLine();
-//							info = read.nextLine();
-//							continue;
-//						}
-//						if(info.equals("<number>")){
-//							data[0] = read.nextLine();
-//							info = read.nextLine();
-//							continue;
-//						}
-//						if(info.equals("<owner>")){
-//							data[1] = read.nextLine();
-//							info = read.nextLine();
-//							continue;
-//						}
-//						if(info.equals("<date>")){
-//							data[2] = read.nextLine();
-//							info = read.nextLine();
-//							continue;
-//						}
-//						if(info.equals("<balance>")){
-//							data[3] = read.nextLine();
-//							info = read.nextLine();
-//							continue;
-//						}
-//						if(info.equals("<fee>")){
-//							data[4] = read.nextLine();
-//							info = read.nextLine();
-//							continue;
-//						}
-//						if(info.equals("<min>")){
-//							data[5] = read.nextLine();
-//							info =read.nextLine();
-//							continue;
-//						}
-//						if(info.equals("<interest>")){
-//							data[6] = read.nextLine();
-//							info = read.nextLine();
-//							continue;
-//						}
-//						
-//						info = read.nextLine();
-//					}
-//					
-//					//after we have all the info, check account type
-//					if(type.equals("BankProgram.CheckingAccount")){
-//						temp = new CheckingAccount(
-//								Integer.parseInt(data[0]), 
-//								data[1], 
-//								new GregorianCalendar(), 
-//								Double.parseDouble(data[3]),
-//								Double.parseDouble(data[4]));
-//						
-//						acts.add(temp);
-//					}else{
-//						temp = new SavingsAccount(
-//								Integer.parseInt(data[0]),
-//								data[1],
-//								new GregorianCalendar(),
-//								Double.parseDouble(data[3]),
-//								Double.parseDouble(data[5]),
-//								Double.parseDouble(data[6]));
-//						
-//						acts.add(temp);
-//					}
-//					
-//				}
-//			}
-//			fireContentsChanged(this, 0, acts.size() - 1);
-//			read.close();
-//			
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			Scanner read = new Scanner(new File(fileName));
+			String curLine = "";
+			String[] accInfo = new String[8];
+			String[] date;
+			Account temp;
+			
+			//removes all current accounts
+			for(int i=0; i<acts.size();){
+				acts.remove(i);
+			}
+
+			while(read.hasNextLine()){
+				curLine = read.nextLine();
+				
+
+				
+				if(curLine.equals("<type>")){
+					accInfo[0] = read.nextLine();
+					curLine = read.nextLine();
+					continue;
+				}
+				
+				if(curLine.equals("<number>")){
+					accInfo[1] = read.nextLine();
+					curLine = read.nextLine();
+					continue;
+				}
+				
+				if(curLine.equals("<owner>")){
+					accInfo[2] = read.nextLine();
+					curLine = read.nextLine();
+					continue;
+				}
+				
+				if(curLine.equals("<date>")){
+					accInfo[3] = read.nextLine();
+					curLine = read.nextLine();
+					continue;
+				}
+				
+				if(curLine.equals("<balance>")){
+					accInfo[4] = read.nextLine();
+					curLine = read.nextLine();
+					continue;
+				}
+				
+				if(curLine.equals("<fee>")){
+					accInfo[5] = read.nextLine();
+					curLine = read.nextLine();
+					continue;
+				}
+				
+				if(curLine.equals("<min>")){
+					accInfo[6] = read.nextLine();
+					curLine = read.nextLine();
+					continue;
+				}
+				
+				if(curLine.equals("<interest>")){
+					accInfo[7] = read.nextLine();
+					curLine = read.nextLine();
+					continue;
+				}
+				
+				if(curLine.equals("</account>")){
+					//Set the account data, and then clear it
+					
+					date = accInfo[3].split("/");
+					
+					if(accInfo[0].equals("CheckingAccount")){
+						temp = new CheckingAccount(
+								Integer.parseInt(accInfo[1]), 
+								accInfo[2], 
+								//year month day
+								new GregorianCalendar(
+										Integer.parseInt(date[2]),
+										Integer.parseInt(date[0]),
+										Integer.parseInt(date[1])), 
+								Double.parseDouble(accInfo[4]), 
+								Double.parseDouble(accInfo[5]));
+					}else{
+						temp = new SavingsAccount(
+								Integer.parseInt(accInfo[1]), 
+								accInfo[2], 
+								new GregorianCalendar(
+										Integer.parseInt(date[2]),
+										Integer.parseInt(date[0]),
+										Integer.parseInt(date[1])), 
+								Double.parseDouble(accInfo[4]), 
+								Double.parseDouble(accInfo[6]),
+								Double.parseDouble(accInfo[7]));
+					}
+					
+					acts.add(temp);
+				}
+			}
+			
+			this.fireTableDataChanged();
+			read.close();
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Could not load file!");
+		} catch (NullPointerException e){
+			System.out.println("XML File has been corrupted!");
+		} catch (NumberFormatException e){
+			System.out.println("XML File has been corrupted!");
+		}
 	}
 	
 	
@@ -443,22 +450,26 @@ public class BankModel extends AbstractTableModel {
 			//checks if it's savings or checking
 			if(acts.get(i).getClass().getName().equals("BankProgram.CheckingAccount")){
 				write += "<account>\n";
-				write += "<type>\n" + acts.get(i).getClass().getName() + "\n</type>\n";
+				write += "<type>\n" + acts.get(i).getClass().getSimpleName() + "\n</type>\n";
 				write += "<number>\n" + acts.get(i).getNumber() + "\n</number>\n";
 				write += "<owner>\n" + acts.get(i).getOwner() + "\n</owner>\n";
-				write += "<date>\n" + "<Fix Date in saveText>" + "\n</date>\n";
+				write += "<date>\n" + acts.get(i).getDateOpened().get(GregorianCalendar.MONTH) + "/" +
+						acts.get(i).getDateOpened().get(GregorianCalendar.DAY_OF_MONTH) +
+						"/"+acts.get(i).getDateOpened().get(GregorianCalendar.YEAR) + "\n</date>\n";
 				write += "<balance>\n" + acts.get(i).getBalance() + "\n</balance>\n";
 				write += "<fee>\n" + ((CheckingAccount)acts.get(i)).getMonthlyFee() + "\n</fee>\n";
 				write += "</account>\n";
 			}else{
 				write += "<account>\n";
-				write += "<type>\n" +acts.get(i).getClass().getName() + "\n</type>\n";
-				write += "<number>\n" +acts.get(i).getNumber() + "\n</type>\n";
-				write += "<owner>\n" +acts.get(i).getOwner() + "\n</type>\n";
-				write += "<date>\n" +"<Fix Date in saveText>" + "\n</type>\n";
-				write += "<balance>\n" +acts.get(i).getBalance() + "\n</type>\n";
-				write += "<min>\n" +((SavingsAccount)acts.get(i)).getMinBalance() + "\n</type>\n";
-				write += "<interest>\n" +((SavingsAccount)acts.get(i)).getInterestRate() + "\n</type>\n";
+				write += "<type>\n" +acts.get(i).getClass().getSimpleName() + "\n</type>\n";
+				write += "<number>\n" +acts.get(i).getNumber() + "\n</number>\n";
+				write += "<owner>\n" +acts.get(i).getOwner() + "\n</owner>\n";
+				write += "<date>\n" + acts.get(i).getDateOpened().get(GregorianCalendar.MONTH) + "/" +
+						acts.get(i).getDateOpened().get(GregorianCalendar.DAY_OF_MONTH) +
+						"/"+acts.get(i).getDateOpened().get(GregorianCalendar.YEAR) + "\n</date>\n";
+				write += "<balance>\n" +acts.get(i).getBalance() + "\n</balance>\n";
+				write += "<min>\n" +((SavingsAccount)acts.get(i)).getMinBalance() + "\n</min>\n";
+				write += "<interest>\n" +((SavingsAccount)acts.get(i)).getInterestRate() + "\n</interest>\n";
 				write += "</account>\n";
 			}
 			
