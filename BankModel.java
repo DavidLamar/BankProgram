@@ -196,15 +196,7 @@ public class BankModel extends AbstractTableModel {
 		}
 		
 	}
-	
-	
-	/******************************************************************
-	 * 
-	 *****************************************************************/
-	public void findAccount(){
-		
-	}
-	
+
 	
 	/******************************************************************
 	 * Deletes an account from the ArrayList and updates the table.
