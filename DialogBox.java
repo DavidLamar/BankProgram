@@ -144,8 +144,8 @@ public class DialogBox extends JDialog implements ActionListener{
 		if(e.getSource() == Create){
 			String[] date = Date.getText().split("/");
 
-			//check if it is a valid date
-			if(isValidDate(date)){
+			//check if it is a valid date and name is not empty
+			if(isValidDate(date) || Owner.getText().equals("")){
 
 				int day = Integer.parseInt(date[1]);
 				int month = Integer.parseInt(date[0]) - 1;
@@ -175,12 +175,13 @@ public class DialogBox extends JDialog implements ActionListener{
 				}
 				//catch parse errors and inform the user the input is invalid
 				catch(NumberFormatException ex){
+
 					JOptionPane.showMessageDialog(this, "Invalid Input");
 				}
 			}else{
 
 				//tell the user the date is invalid
-				JOptionPane.showMessageDialog(this, "Invalid Date");
+				JOptionPane.showMessageDialog(this, "Invalid Input");
 			}
 		}
 	}
