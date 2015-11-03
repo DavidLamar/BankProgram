@@ -23,12 +23,22 @@ import javax.swing.table.AbstractTableModel;
 public class BankModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
+	
+	/** Holds all of the bank accounts */
 	private ArrayList<Account> acts;
+	
+	/** JFrame we use to reference the BankGUI */
 	private JFrame GUI;
+	
+	/** The JDialog box that pops up when an account is added */
 	private JDialog jd;
 
-	// constructor method that initializes the arraylist
-
+	
+	/******************************************************************
+	 * Constructor that initializes the accounts and sets the JFrame
+	 * 
+	 * @param bGUI The JFrame we're getting from BankGUI
+	 *****************************************************************/
 	public BankModel(JFrame bGUI) {
 
 		acts = new ArrayList<Account>();
@@ -37,16 +47,34 @@ public class BankModel extends AbstractTableModel {
 	}
 
 	
+	
+	/******************************************************************
+	 * Gets the number of columns for our JTable
+	 * 
+	 * @return 8 number of attributes of each account
+	 *****************************************************************/
 	@Override
 	public int getColumnCount() {
 		return 8;
 	}
 
+	
+	/******************************************************************
+	 * Gets the number of rows for our JTable
+	 * 
+	 * @return acts.size() The number of accounts we have
+	 *****************************************************************/
 	@Override
 	public int getRowCount() {
 		return acts.size();
 	}
 	
+	
+	/******************************************************************
+	 * Gets the names for the header of our JTable
+	 * 
+	 * @return The description of each column
+	 *****************************************************************/
 	@Override
 	public String getColumnName(int col){
 		switch(col){
@@ -72,6 +100,15 @@ public class BankModel extends AbstractTableModel {
 		}
 	}
 
+	
+	/******************************************************************
+	 * Gets the value of the table at position rowIndex, columnIndex
+	 * 
+	 * @param rowIndex The row we're looking to
+	 * @param columnIndex The column we're looking to
+	 * 
+	 * @return The attribute of the account at the table row/column
+	 *****************************************************************/
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		
@@ -116,6 +153,7 @@ public class BankModel extends AbstractTableModel {
 
 	}
 	
+	//Old List code
 //	// override these two methods from AbstractListModel class
 //	@Override
 //	public Object getElementAt(int arg0) {
@@ -132,6 +170,11 @@ public class BankModel extends AbstractTableModel {
 	
 /*************************** Account *********************************/
 	
+	
+	/******************************************************************
+	 * Adds an account to the ArrayList; See DialogBox.java for more
+	 * information.
+	 *****************************************************************/
 	public void addAccount(){
 		
 		jd = new DialogBox(GUI);
@@ -149,10 +192,20 @@ public class BankModel extends AbstractTableModel {
 		
 	}
 	
+	
+	/******************************************************************
+	 * 
+	 *****************************************************************/
 	public void findAccount(){
 		
 	}
 	
+	
+	/******************************************************************
+	 * Deletes an account from the ArrayList and updates the table.
+	 * 
+	 * @param i The index of the account we want to delete
+	 *****************************************************************/
 	public void deleteAccount(int i){
 		JOptionPane.showMessageDialog(GUI, "Deleted Account: " + 
 				acts.get(i).getNumber());
@@ -161,6 +214,13 @@ public class BankModel extends AbstractTableModel {
 		fireTableDataChanged();
 	}
 	
+	
+	/******************************************************************
+	 * Updates the account at the given row, i; See DialogBox.java
+	 * for more information.
+	 * 
+	 * @param i The position of the account we want to update
+	 *****************************************************************/
 	public void updateAccount(int i){
 
 		if(acts.get(i) instanceof CheckingAccount) {
@@ -197,6 +257,12 @@ public class BankModel extends AbstractTableModel {
 	
 /****************************** Load *********************************/
 	
+	
+	/******************************************************************
+	 * Loads the account list from a serialized binary file
+	 * 
+	 * @param fileName The name of the file we're reading
+	 *****************************************************************/
 	@SuppressWarnings("unchecked")
 	public void loadBinary(String fileName){
 		FileInputStream in;
@@ -213,6 +279,12 @@ public class BankModel extends AbstractTableModel {
 		}
 	}
 	
+	
+	/******************************************************************
+	 * Loads the account list from a text file
+	 * 
+	 * @param fileName The name of the file we're reading
+	 *****************************************************************/
 	public void loadText(String fileName){
 		try {
 			Scanner read = new Scanner(new File(fileName));
@@ -261,6 +333,12 @@ public class BankModel extends AbstractTableModel {
 		}
 	}
 	
+	
+	/******************************************************************
+	 * Loads the account list from an XML file
+	 * 
+	 * @param fileName The name of the file we're reading
+	 *****************************************************************/
 	public void loadXML(String fileName){
 		try {
 			Scanner read = new Scanner(new File(fileName));
@@ -375,6 +453,12 @@ public class BankModel extends AbstractTableModel {
 	
 /****************************** Save *********************************/
 	
+	
+	/******************************************************************
+	 * Saves the account list as a serialized binary file
+	 * 
+	 * @param fileName The name of the file we're saving to
+	 *****************************************************************/
 	public void saveBinary(String fileName){
 		FileOutputStream fos;
 		ObjectOutputStream oos;
@@ -397,6 +481,12 @@ public class BankModel extends AbstractTableModel {
 		
 	}
 	
+	
+	/******************************************************************
+	 * Saves the account list as a text file
+	 * 
+	 * @param fileName The name of the file we're saving to
+	 *****************************************************************/
 	public void saveText(String fileName){
 		
 		String write = "";
@@ -441,6 +531,12 @@ public class BankModel extends AbstractTableModel {
 		}
 	}
 	
+	
+	/******************************************************************
+	 * Saves the account list as an XML file
+	 * 
+	 * @param fileName The name of the file we're saving to
+	 *****************************************************************/
 	public void saveXML(String fileName){
 
 		String write = "";
@@ -490,16 +586,29 @@ public class BankModel extends AbstractTableModel {
 	
 /****************************** Sort *********************************/
 	
+	
+	/******************************************************************
+	 * Sorts the list of accounts by their account number and updates
+	 * the table
+	 *****************************************************************/
 	public void sortAccountNumber(){
 		Collections.sort(acts, new AccountNumberSort());
 		fireTableDataChanged();
 	}
 	
+	/******************************************************************
+	 * Sorts the list of accounts by their owner and updates the table
+	 *****************************************************************/
 	public void sortOwner(){
 		Collections.sort(acts, new AccountOwnerSort());
 		fireTableDataChanged();
 	}
 	
+	
+	/******************************************************************
+	 * Sorts the list of accounts by the date they were opened and 
+	 * updates the table
+	 *****************************************************************/
 	public void sortDate(){
 		Collections.sort(acts, new DateOpenedSort());
 		fireTableDataChanged();
