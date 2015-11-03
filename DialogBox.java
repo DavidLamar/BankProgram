@@ -5,15 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.GregorianCalendar;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-
+import javax.swing.*;
 
 
 public class DialogBox extends JDialog implements ActionListener{
@@ -151,30 +143,66 @@ public class DialogBox extends JDialog implements ActionListener{
 		
 		if(e.getSource() == Create){
 			String[] date = Date.getText().split("/");
-			int day = Integer.parseInt(date[1]);
-			int month = Integer.parseInt(date[0]) - 1;
-			int year = Integer.parseInt(date[2]);
 
-			//Checks what type of account it is, and makes the accounts
-			if(Checking.isSelected()){
-				acc = new CheckingAccount(
-						Integer.parseInt(Number.getText()), 
-						Owner.getText(),
-						new GregorianCalendar(year, month, day),
-						Double.parseDouble(Balance.getText()),
-						Double.parseDouble(Fee.getText()) );
+			if(isValidDate(date)){
+
+				int day = Integer.parseInt(date[1]);
+				int month = Integer.parseInt(date[0]) - 1;
+				int year = Integer.parseInt(date[2]);
+
+				//Checks what type of account it is, and makes the accounts
+				try {
+
+					if (Checking.isSelected()) {
+						acc = new CheckingAccount(
+								Integer.parseInt(Number.getText()),
+								Owner.getText(),
+								new GregorianCalendar(year, month, day),
+								Double.parseDouble(Balance.getText()),
+								Double.parseDouble(Fee.getText()));
+					} else {
+						acc = new SavingsAccount(
+								Integer.parseInt(Number.getText()),
+								Owner.getText(),
+								new GregorianCalendar(year, month, day),
+								Double.parseDouble(Balance.getText()),
+								Double.parseDouble(minBalance.getText()),
+								Double.parseDouble(Interest.getText()));
+					}
+
+					dispose();
+				}catch(NumberFormatException ex){
+					JOptionPane.showMessageDialog(this, "Invalid Input");
+				}
 			}else{
-				acc = new SavingsAccount(
-						Integer.parseInt(Number.getText()), 
-						Owner.getText(),
-						new GregorianCalendar(year, month, day),
-						Double.parseDouble(Balance.getText()),
-						Double.parseDouble(minBalance.getText()),
-						Double.parseDouble(Interest.getText()));
+
+				JOptionPane.showMessageDialog(this, "Invalid Date");
 			}
-			
-			dispose();
 		}
+	}
+
+	private boolean isValidDate(String[] str){
+
+		if(str.length != 3){
+			return false;
+		}
+
+		try{
+
+			int day = Integer.parseInt(str[1]);
+			int month = Integer.parseInt(str[0]) - 1;
+			int year = Integer.parseInt(str[2]);
+
+			GregorianCalendar c = new GregorianCalendar();
+			c.setLenient(false);
+			c.set(year, month, day);
+			c.getTime();
+		}catch(Exception e){
+
+			return false;
+		}
+
+		return true;
 	}
 	
 	public Account getAccount(){
